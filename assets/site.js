@@ -40,8 +40,17 @@ function searchSite(event){
   const slides=[...document.querySelectorAll('.slide')];
   if(slides.length>1){
     const INTERVAL=3000; // ms: geçiş süresi
-    let i=0;
-    setInterval(()=>{slides[i].classList.remove('is-on');i=(i+1)%slides.length;slides[i].classList.add('is-on');},INTERVAL);
+    const bar=document.querySelector('.slide-bar');
+    bar?.style.setProperty('--slide-ms',INTERVAL+'ms');
+    const runBar=()=>{if(!bar)return;bar.classList.remove('run');void bar.offsetWidth;bar.classList.add('run');};
+    let i=0;runBar();
+    setInterval(()=>{
+      slides.forEach(s=>s.classList.remove('is-out'));
+      slides[i].classList.replace('is-on','is-out');
+      i=(i+1)%slides.length;
+      slides[i].classList.add('is-on');
+      runBar();
+    },INTERVAL);
   }
 
   // Ürün detay sekmeleri (ok tuşlarıyla gezinme)
