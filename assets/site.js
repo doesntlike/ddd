@@ -42,6 +42,8 @@ function searchSite(event){
     const INTERVAL=3000; // ms: geçiş süresi
     const bar=document.querySelector('.slide-bar');
     bar?.style.setProperty('--slide-ms',INTERVAL+'ms');
+    const line=document.querySelector('.wipe-line');
+    const runLine=()=>{if(!line)return;line.classList.remove('run');void line.offsetWidth;line.classList.add('run');};
     const runBar=()=>{if(!bar)return;bar.classList.remove('run');void bar.offsetWidth;bar.classList.add('run');};
     let i=0;runBar();
     setInterval(()=>{
@@ -49,7 +51,7 @@ function searchSite(event){
       slides[i].classList.replace('is-on','is-out');
       i=(i+1)%slides.length;
       slides[i].classList.add('is-on');
-      runBar();
+      runBar();runLine();
     },INTERVAL);
   }
 
