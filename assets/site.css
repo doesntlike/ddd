@@ -49,7 +49,7 @@ p{margin:0;text-wrap:pretty}
 .header{position:sticky;top:0;z-index:50;background:rgba(29,46,37,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .header .wrap{display:flex;align-items:center;gap:20px;min-height:76px;max-width:1400px}
 .brand{white-space:nowrap;display:flex;align-items:center;gap:12px;text-decoration:none;flex-shrink:0}
-.brand svg{width:44px;height:44px}
+.brand .logo{width:56px;height:56px;border-radius:50%;box-shadow:0 0 0 1px rgba(240,232,214,.18)}
 .brand b{display:block;font:400 21px/1 var(--serif);letter-spacing:.06em;color:var(--ink)}
 .brand small{display:block;margin-top:5px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
 .nav{display:flex;align-items:center;gap:4px;margin-left:auto}
@@ -101,10 +101,6 @@ a.photo:hover img,.photo:hover img{transform:scale(1.025)}
 .facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--line);padding-top:22px;gap:20px;max-width:560px}
 .facts b{display:block;font:400 19px/1.2 var(--serif);color:var(--ink)}
 .facts span{display:block;font-size:14px;color:var(--ink-3);margin-top:4px}
-.hero-photo{position:relative;min-height:420px;overflow:hidden;background:#2a2a24}
-.hero-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 55%}
-.hero-photo .stamp{position:absolute;left:28px;bottom:28px;display:flex;align-items:center;gap:12px;padding:12px 18px 12px 12px;border-radius:999px;background:rgba(21,34,27,.9);color:var(--ink);font-weight:700;font-size:14px}
-.hero-photo .stamp svg{width:34px;height:34px}
 
 /* Ürün yayılımı */
 .spread{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(32px,5vw,80px);align-items:center}
@@ -124,7 +120,7 @@ a.photo:hover img,.photo:hover img{transform:scale(1.025)}
 .story h2{font-size:clamp(36px,4.2vw,60px)}
 .story-side{display:flex;flex-direction:column;gap:24px}
 .story-side p{font-size:17px}
-.emblem{width:72px;height:72px}
+.emblem{width:112px;height:112px;border-radius:50%}
 
 /* Satır listesi (kart yerine) */
 .rows{border-top:1px solid var(--line)}
@@ -213,7 +209,7 @@ a.photo:hover img,.photo:hover img{transform:scale(1.025)}
 @keyframes reveal{from{clip-path:inset(0 0 0 100%)}to{clip-path:inset(0)}}
 [data-enter]>*{animation:up .9s var(--ease) both}
 [data-enter]>:nth-child(2){animation-delay:.08s}[data-enter]>:nth-child(3){animation-delay:.16s}[data-enter]>:nth-child(4){animation-delay:.24s}[data-enter]>:nth-child(5){animation-delay:.32s}
-.hero-photo{animation:reveal 1.2s var(--ease) .15s both}
+.hero-media{animation:up 1s var(--ease) .15s both}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 
 /* Duyarlı */
@@ -232,7 +228,8 @@ a.photo:hover img,.photo:hover img{transform:scale(1.025)}
   .nav .search{display:flex;width:100%;margin-top:20px}
   .hero,.spread,.spread.flip,.story,.faq,.contact,.head,.page-head .grid,.detail-head,.footer .grid{grid-template-columns:minmax(0,1fr)}
   .hero{min-height:0}
-  .hero-photo{min-height:0;aspect-ratio:4/3;order:2}
+  .hero-media{order:-1;justify-self:stretch;width:auto;height:auto;aspect-ratio:4/3;margin:20px var(--gut) 0;padding:0}
+  .hero-copy{padding-top:32px}
   .hero-copy{padding:48px var(--gut)}
   .spread.flip .photo{order:0}
   .faq-side{position:static}
@@ -243,7 +240,7 @@ a.photo:hover img,.photo:hover img{transform:scale(1.025)}
   .band:after{background:rgba(21,34,27,.76)}
 }
 @media(max-width:560px){
-  .brand b{font-size:18px}.brand small{font-size:11px;letter-spacing:.08em}.brand svg{width:38px;height:38px}
+  .brand b{font-size:18px}.brand small{font-size:11px;letter-spacing:.08em}.brand .logo{width:46px;height:46px}
   .menu-btn span{display:none}
   .facts{grid-template-columns:minmax(0,1fr);gap:12px}
   .facts div{display:flex;gap:10px;align-items:baseline}
@@ -263,4 +260,20 @@ a.photo:hover img,.photo:hover img{transform:scale(1.025)}
 .btn.ghost,.dark .btn.ghost{background:transparent;color:var(--ink);border-color:rgba(237,228,207,.38)}
 .btn.ghost:hover,.dark .btn.ghost:hover{background:rgba(237,228,207,.08);color:var(--ink);border-color:var(--gold)}
 .search button{background:var(--gold);color:#13201a}
-.photo,.hero-photo{background:#15221b}
+.photo,.slides{background:#15221b}
+
+/* Kahraman: ölçülü, çerçeveli foto + yumuşak geçişli slayt */
+.hero{align-items:center}
+.hero-media{position:relative}
+@media(min-width:901px){.hero-media{justify-self:center;height:min(calc(100svh - 200px),620px);aspect-ratio:4/5;max-width:100%;margin:40px max(var(--gut),calc((100vw - var(--wrap))/2 + var(--gut))) 40px 0}}
+.slides{position:relative;width:100%;height:100%;overflow:hidden;border-radius:22px;box-shadow:0 30px 60px -30px rgba(0,0,0,.6)}
+.slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.04);transition:opacity 1s ease,transform 6s ease}
+.slide.is-on{opacity:1;transform:none}
+.slide-ctrl{position:absolute;left:16px;bottom:16px;display:flex;align-items:center;gap:2px;padding:4px 6px;border-radius:999px;background:rgba(21,34,27,.72)}
+.dot-btn,.pause-btn{width:36px;height:36px;border:0;background:transparent;cursor:pointer;display:grid;place-items:center;border-radius:50%;color:var(--ink)}
+.dot-btn:after{content:"";width:8px;height:8px;border-radius:50%;background:rgba(240,232,214,.45);transition:.3s}
+.dot-btn.is-on:after{width:22px;border-radius:4px;background:var(--gold)}
+.pause-btn:after{content:"";width:10px;height:12px;background:linear-gradient(90deg,currentColor 0 3px,transparent 3px 7px,currentColor 7px 10px)}
+.pause-btn[aria-pressed="true"]:after{width:10px;height:12px;background:currentColor;clip-path:polygon(0 0,100% 50%,0 100%);margin-left:2px}
+.footer .brand .logo{width:72px;height:72px}
+@media(prefers-reduced-motion:reduce){.slide{transition:none}}
