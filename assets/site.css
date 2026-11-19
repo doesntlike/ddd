@@ -210,7 +210,8 @@ a.photo:hover img,.photo:hover img{transform:scale(1.025)}
 [data-enter]>*{animation:up .9s var(--ease) both}
 [data-enter]>:nth-child(2){animation-delay:.08s}[data-enter]>:nth-child(3){animation-delay:.16s}[data-enter]>:nth-child(4){animation-delay:.24s}[data-enter]>:nth-child(5){animation-delay:.32s}
 .hero-media{animation:up 1s var(--ease) .15s both}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+/* hareketi azalt tercihi: ana sayfa slaytı hariç (işletmenin istediği imza an) */
+@media(prefers-reduced-motion:reduce){*:not(.slides,.slides *),*:not(.slides,.slides *):before,*:not(.slides,.slides *):after{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 
 /* Duyarlı */
 @media(max-width:1280px){.header .wrap>.search{display:none}}
@@ -284,4 +285,3 @@ a.photo:hover img,.photo:hover img{transform:scale(1.025)}
 .slide-bar.run:after{animation:bar var(--slide-ms,3000ms) linear forwards}
 @keyframes bar{to{transform:scaleX(1)}}
 .footer .brand .logo{width:72px;height:72px}
-@media(prefers-reduced-motion:reduce){.slide,.slide.is-on,.slide.is-out{animation:none!important;transform:none}.slide.is-out{opacity:0}.wipe-line,.slide-bar{display:none}}
