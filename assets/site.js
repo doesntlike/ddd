@@ -36,22 +36,22 @@ function searchSite(event){
   document.querySelectorAll('.nav a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
   document.addEventListener('keydown',e=>{if(e.key==='Escape'){setMenu(false);document.querySelector('.drop')?.classList.remove('open');}});
 
-  // Ana sayfa slaytı: 3 sn’de bir kendi kendine değişir (azaltılmış hareket tercihinde geçiş animasyonsuz, CSS)
+  // Ana sayfa slaytı (kart destesi): 3 sn’de bir öndeki kart çekilir, arkadaki öne gelir
   const slides=[...document.querySelectorAll('.slide')];
   if(slides.length>1){
     const INTERVAL=3000; // ms: geçiş süresi
     const bar=document.querySelector('.slide-bar');
     bar?.style.setProperty('--slide-ms',INTERVAL+'ms');
-    const line=document.querySelector('.wipe-line');
-    const runLine=()=>{if(!line)return;line.classList.remove('run');void line.offsetWidth;line.classList.add('run');};
     const runBar=()=>{if(!bar)return;bar.classList.remove('run');void bar.offsetWidth;bar.classList.add('run');};
-    let i=0;runBar();
+    const order=[...slides]; // order[0] öndeki kart
+    const place=()=>order.forEach((s,n)=>s.dataset.pos=n);
+    place();runBar();
     setInterval(()=>{
-      slides.forEach(s=>s.classList.remove('is-out'));
-      slides[i].classList.replace('is-on','is-out');
-      i=(i+1)%slides.length;
-      slides[i].classList.add('is-on');
-      runBar();runLine();
+      const front=order.shift();order.push(front);
+      front.classList.add('leave');
+      order.forEach((s,n)=>{if(s!==front)s.dataset.pos=n;});
+      setTimeout(()=>{front.classList.add('reset');front.classList.remove('leave');front.dataset.pos=order.length-1;void front.offsetWidth;front.classList.remove('reset');},880);
+      runBar();
     },INTERVAL);
   }
 
