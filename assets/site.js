@@ -36,24 +36,12 @@ function searchSite(event){
   document.querySelectorAll('.nav a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
   document.addEventListener('keydown',e=>{if(e.key==='Escape'){setMenu(false);document.querySelector('.drop')?.classList.remove('open');}});
 
-  // Ana sayfa slaytı: yumuşak geçiş, üzerine gelince / odakta durur, durdur düğmesi, azaltılmış harekette otomatik geçiş yok
+  // Ana sayfa slaytı: kendi kendine yumuşak geçiş; azaltılmış hareket tercihinde ilk fotoğrafta kalır
   const slides=[...document.querySelectorAll('.slide')];
-  if(slides.length>1){
+  if(slides.length>1&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
     const INTERVAL=3000; // ms: geçiş süresi
-    const dots=[...document.querySelectorAll('.dot-btn')];
-    const pause=document.querySelector('.pause-btn');
-    const media=document.querySelector('.hero-media');
-    let i=0,timer=null,hold=false,stopped=matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const show=n=>{i=(n+slides.length)%slides.length;slides.forEach((s,j)=>s.classList.toggle('is-on',j===i));dots.forEach((d,j)=>{d.classList.toggle('is-on',j===i);d.setAttribute('aria-current',j===i?'true':'false');});};
-    const tick=()=>{clearTimeout(timer);if(!stopped&&!hold)timer=setTimeout(()=>{show(i+1);tick();},INTERVAL);};
-    const setStopped=v=>{stopped=v;pause?.setAttribute('aria-pressed',String(v));pause?.setAttribute('aria-label',v?'Slayt gösterisini başlat':'Slayt gösterisini durdur');tick();};
-    dots.forEach((d,j)=>d.addEventListener('click',()=>{show(j);tick();}));
-    pause?.addEventListener('click',()=>setStopped(!stopped));
-    media?.addEventListener('mouseenter',()=>{hold=true;tick();});
-    media?.addEventListener('mouseleave',()=>{hold=false;tick();});
-    media?.addEventListener('focusin',()=>{hold=true;tick();});
-    media?.addEventListener('focusout',()=>{hold=false;tick();});
-    setStopped(stopped);
+    let i=0;
+    setInterval(()=>{slides[i].classList.remove('is-on');i=(i+1)%slides.length;slides[i].classList.add('is-on');},INTERVAL);
   }
 
   // Ürün detay sekmeleri (ok tuşlarıyla gezinme)
