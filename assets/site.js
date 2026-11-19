@@ -36,9 +36,9 @@ function searchSite(event){
   document.querySelectorAll('.nav a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
   document.addEventListener('keydown',e=>{if(e.key==='Escape'){setMenu(false);document.querySelector('.drop')?.classList.remove('open');}});
 
-  // Ana sayfa slaytı: kendi kendine yumuşak geçiş; azaltılmış hareket tercihinde ilk fotoğrafta kalır
+  // Ana sayfa slaytı: 3 sn’de bir kendi kendine değişir (azaltılmış hareket tercihinde geçiş animasyonsuz, CSS)
   const slides=[...document.querySelectorAll('.slide')];
-  if(slides.length>1&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
+  if(slides.length>1){
     const INTERVAL=3000; // ms: geçiş süresi
     let i=0;
     setInterval(()=>{slides[i].classList.remove('is-on');i=(i+1)%slides.length;slides[i].classList.add('is-on');},INTERVAL);
